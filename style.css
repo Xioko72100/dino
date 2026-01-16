@@ -1,0 +1,55 @@
+body {
+    padding: 20px;
+    background-color: aliceblue;
+}
+
+#game{
+    width: 500px;
+    height: 200px;
+    border: 1px soild black;
+    position: relative;
+}
+
+#dino{
+    width: 20px;
+    height: 50px;
+    background-color: #de0d26;
+    position: absolute;
+    bottom: 0px;
+    animation: jump 0.3s infinite;
+}
+
+@keyframes jump {
+    0%{
+        bottom: 0px;
+    }
+
+    30%{
+        bottom: 100px;
+    }
+    70%{
+        bottom: 100px;
+    }
+    100%{
+        bottom: 0px
+    }
+}
+
+#block {
+    width: 20px;
+    height: 20px;
+    background-color: blue;
+    position: absolute;
+    bottom: 0px;
+    left: 450px;
+    animation: block 1s linear infinite;
+}
+
+@keyframes block {
+    0%{
+        left: 450px;
+    }
+    100% {
+        left:-20px;
+    }
+}
