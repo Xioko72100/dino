@@ -1,24 +1,143 @@
-<div id="game">
-    <div id="dino"></div>
-    <div id="block"></div>
-    
-    <button id="startBtn">Start Game</button>
-</div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dino Game</title>
-    <link rel="stylesheet" href="style.css"> 
+    <style>
+
+        body {
+            padding: 20px;
+            background-color: aliceblue;
+            display: flex;
+            justify-content: center;
+        }
+
+        #game {
+            width: 500px;
+            height: 200px;
+            border: 1px solid black;
+            position: relative;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        #dino {
+            width: 20px;
+            height: 50px;
+            background-color: #de0d26;
+            position: absolute;
+            bottom: 0px;
+            left: 20px;
+        }
+
+
+        .jumpClass {
+            animation: jump 0.3s linear;
+        }
+
+        @keyframes jump {
+            0% { bottom: 0px; }
+            30% { bottom: 100px; }
+            70% { bottom: 100px; }
+            100% { bottom: 0px; }
+        }
+
+        #block {
+            width: 20px;
+            height: 20px;
+            background-color: blue;
+            position: absolute;
+            bottom: 0px;
+            left: 450px;
+
+        }
+
+        .animateBlock {
+            animation: block 1s linear infinite;
+        }
+
+        @keyframes block {
+            0% { left: 450px; }
+            100% { left: -20px; }
+        }
+
+
+        #startBtn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            z-index: 10;
+        }
+    </style>
 </head>
 <body>
+
     <div id="game">
         <div id="dino"></div>
         <div id="block"></div>
+        <button id="startBtn">Start Game</button>
     </div>
 
-    <script src="main.js"></script> 
+    <script>
+
+
+        const dino = document.querySelector('#dino');
+        const block = document.querySelector('#block');
+        const startBtn = document.querySelector('#startBtn');
+        let gameInterval;
+
+        console.log("Game loading...");
+
+
+        window.addEventListener("keydown", (event) => {
+            if (event.code === 'Space') { 
+                if (!dino.classList.contains('jumpClass')) { 
+                    dino.classList.add('jumpClass');
+                    setTimeout(() => {
+                        dino.classList.remove('jumpClass');
+                    }, 300);
+                }
+            }
+        });
+
+
+        startBtn.addEventListener('click', () => {
+            console.log("The button was pressed.");
+            startBtn.style.display = 'none';
+            block.classList.add('animateBlock'); 
+            startGameLoop();
+        });
+
+
+        function startGameLoop() {
+            gameInterval = setInterval(() => {
+                const dinoBottom = parseInt(getComputedStyle(dino).getPropertyValue("bottom"));
+                const blockLeft = parseInt(getComputedStyle(block).getPropertyValue("left"));
+
+                if (blockLeft < 40 && blockLeft > 0 && dinoBottom < 20) {
+
+                    block.style.animation = "none"; 
+                    block.style.display = "none";
+
+                    clearInterval(gameInterval); 
+                    
+                    setTimeout(() => {
+                        alert("Game Over! F5 restart");
+                        location.reload();
+                    }, 100);
+                }
+
+            }, 10);
+        }
+    </script>
 </body>
 </html>
-
